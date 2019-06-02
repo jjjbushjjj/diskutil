@@ -61,7 +61,7 @@ func (a *AdapterStat) parseMegaRaidVdInfo(info string) error {
 }
 
 func (a *AdapterStat) getMegaRaidVdInfo(command string) error {
-	args := "-ldinfo -lall -a" + strconv.Itoa(a.AdapterId)
+	args := "-ldinfo -lall -a" + strconv.Itoa(a.AdapterId) + "-NoLog"
 
 	output, err := execCmd(command, args)
 	if err != nil {
@@ -111,7 +111,7 @@ func (a *AdapterStat) parseMegaRaidPdInfo(info string) error {
 }
 
 func (a *AdapterStat) getMegaRaidPdInfo(command string) error {
-	args := "-pdlist -a" + strconv.Itoa(a.AdapterId)
+	args := "-pdlist -a" + strconv.Itoa(a.AdapterId) + "-NoLog"
 
 	output, err := execCmd(command, args)
 	if err != nil {

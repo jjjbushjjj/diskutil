@@ -54,7 +54,8 @@ func (d *DiskStatus) String() string {
 
 // ToJson() is used to get the json encoded string.
 func (d *DiskStatus) ToJson() (string, error) {
-	data, err := json.Marshal(d)
+	// data, err := json.Marshal(d)
+	data, err := json.MarshalIndent(d, "", "   ")
 	if err != nil {
 		return "", err
 	}

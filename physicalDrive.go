@@ -7,7 +7,7 @@ import (
 
 // PhysicalDriveStat is a struct to get the Physical Drive Stat of a RAID card.
 type PhysicalDriveStat struct {
-	EnclosureDeviceId      int    `json:"enclosure_device_id"`
+	EnclosureDeviceId      string `json:"enclosure_device_id"`
 	DeviceId               int    `json:"device_id"`
 	SlotNumber             int    `json:"slot_number"`
 	MediaErrorCount        int    `json:"media_error_count"`
@@ -42,11 +42,11 @@ func (p *PhysicalDriveStat) ToJson() (string, error) {
 
 func (p *PhysicalDriveStat) parseLine(line string) error {
 	if strings.HasPrefix(line, keyPdEnclosureDeviceId) {
-		EnclosureDeviceId, err := parseFiled(line, keyPdEnclosureDeviceId, typeInt)
+		EnclosureDeviceId, err := parseFiled(line, keyPdEnclosureDeviceId, typeString)
 		if err != nil {
 			return err
 		}
-		p.EnclosureDeviceId = EnclosureDeviceId.(int)
+		p.EnclosureDeviceId = EnclosureDeviceId.(string)
 	} else if strings.HasPrefix(line, keyPdDeviceId) {
 		deviceId, err := parseFiled(line, keyPdDeviceId, typeInt)
 		if err != nil {
@@ -111,6 +111,10 @@ func (p *PhysicalDriveStat) parseLine(line string) error {
 			p.Model = parts[0]
 		} else if len(parts) == 1 {
 			p.SerialNumber = parts[0]
+		} else if len(parts) == 4 {
+			p.SerialNumber = parts[0]
+			p.Brand = parts[1]
+			p.Model = parts[2]
 		}
 	} else if strings.HasPrefix(line, keyPdDriveTemperature) {
 		driveTemperature, err := parseFiled(line, keyPdDriveTemperature, typeString)
